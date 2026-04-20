@@ -1,0 +1,20 @@
+[
+  {
+    "title": "ProjectPulsewire",
+    "repoName": "projectpulsewire",
+    "description": "A premier Linux audio enhancement tool CLI. Manages EasyEffects presets and IRS files for a stable, high-performance experience.",
+    "installCommand": "pip install projectpulsewire"
+  },
+  {
+    "title": "Numsuko",
+    "repoName": "Numsuko",
+    "description": "An interactive GenZ-focused UI game with terminal animations. A fully cross-platform bug-free terminal experience.",
+    "installCommand": "pip install numsuko"
+  },
+  {
+    "title": "ProjectDevSetup",
+    "repoName": "projectdevsetup",
+    "description": "A stable, production-ready environment setup utility for installing language toolchains, VS Code, and extensions seamlessly.",
+    "installCommand": "pip install projectdevsetup"
+  }
+]
