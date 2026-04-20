@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://roshhellwett.github.io/zenithopensourceprojects/sitemap.xml
+Sitemap: https://roshhellwett.github.io/zenithpages/sitemap.xml
