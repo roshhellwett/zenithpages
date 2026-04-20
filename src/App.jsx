@@ -1,13 +1,12 @@
-import { m } from 'framer-motion';
-import { Terminal, Copy, Star, ExternalLink, Package, Search, Download, ArrowUpDown } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Terminal, Copy, Code2, Star, ExternalLink, Package, Search, Download, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { FaGithub, FaFacebook } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import projectsData from './projects.json';
 
+void motion;
+
 function App() {
-  const MotionDiv = m.div;
-  const MotionH1 = m.h1;
-  const MotionP = m.p;
   const [copied, setCopied] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('stars');
@@ -87,30 +86,30 @@ function App() {
       <main className="pt-40 pb-16 px-8 md:px-16 w-full mx-auto">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-16 mb-24">
           <div className="flex flex-col items-start text-left max-w-3xl">
-            <MotionDiv 
+            <motion.div 
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-2 text-brand-400 font-semibold tracking-wider uppercase text-xs mb-6 px-3 py-1 rounded-full border border-brand-500/20 bg-brand-500/10"
             >
               <Terminal size={14} /> Open Source Toolchain
-            </MotionDiv>
+            </motion.div>
             
-            <MotionH1 
+            <motion.h1 
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-8 bg-gradient-to-br from-white via-zinc-200 to-zinc-600 bg-clip-text text-transparent leading-[1.05]"
             >
               The Developer <br/> Utility Registry
-            </MotionH1>
+            </motion.h1>
             
-            <MotionP 
+            <motion.p 
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="text-lg md:text-xl text-zinc-400 max-w-2xl leading-relaxed"
             >
               Explore, download, and integrate highly optimized CLI tools directly from your terminal. Built for modern infrastructure, accessible to everyone.
-            </MotionP>
+            </motion.p>
           </div>
 
           {/* Decorative Terminal/Code Element on Right */}
-          <MotionDiv 
+          <motion.div 
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
             className="hidden lg:block w-full max-w-md glass-panel p-6 rounded-2xl border border-zinc-800/50 relative overflow-hidden shadow-2xl"
           >
@@ -122,52 +121,48 @@ function App() {
             <div className="font-mono text-sm text-zinc-300 space-y-2">
               <p><span className="text-brand-400">root@zenith</span><span className="text-zinc-500">:~#</span> zenith search audio</p>
               <p className="text-zinc-400">Found 1 package:</p>
-              <p className="text-green-400">-&gt; projectpulsewire (v2.0.0)</p>
+              <p className="text-green-400">➜ projectpulsewire (v2.0.0)</p>
               <p className="mt-4"><span className="text-brand-400">root@zenith</span><span className="text-zinc-500">:~#</span> pip install projectpulsewire</p>
               <p className="text-zinc-400">Downloading dependencies...</p>
               <p className="text-green-400">Successfully installed projectpulsewire</p>
             </div>
             <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-500/10 blur-3xl"></div>
-          </MotionDiv>
+          </motion.div>
         </div>
 
         {/* Packages Registry Section */}
         <div className="border-t border-zinc-800/50 pt-16">
-          <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between mb-10 gap-4">
-            <div className="min-w-0">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 gap-4">
+            <div>
               <h2 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                 <Download className="text-brand-500" />
                 Available Packages
               </h2>
-              <p className="text-zinc-500 mt-2 break-words">
+              <p className="text-zinc-500 mt-2">
                 {resultCount} {resultCount === 1 ? 'package' : 'packages'} available
                 {searchQuery && ` for "${searchQuery}"`}
               </p>
             </div>
-            <div className="flex w-full xl:w-auto flex-col sm:flex-row gap-3 xl:justify-end">
-              <label className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 w-full sm:min-w-[280px] xl:w-[320px]">
-                <Search size={16} className="shrink-0" />
-                <input
-                  type="text"
-                  placeholder="Search packages..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 w-full min-w-0"
-                  aria-label="Search packages"
-                />
-              </label>
-              <button
-                type="button"
-                onClick={() => setSortBy(sortBy === 'stars' ? 'name' : 'stars')}
-                className="flex items-center justify-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 hover:text-zinc-100 hover:border-zinc-700 transition-colors whitespace-nowrap sm:self-start"
-              >
-                <ArrowUpDown size={16} />
-                {sortBy === 'stars' ? 'Stars' : 'A-Z'}
-              </button>
+            <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 w-full sm:w-auto">
+              <Search size={16} />
+              <input
+                type="text"
+                placeholder="Search packages..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 w-full min-w-[150px]"
+              />
             </div>
+            <button
+              onClick={() => setSortBy(sortBy === 'stars' ? 'name' : 'stars')}
+              className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 hover:text-zinc-100 hover:border-zinc-700 transition-colors whitespace-nowrap"
+            >
+              <ArrowUpDown size={16} />
+              {sortBy === 'stars' ? ' Stars' : ' A-Z'}
+            </button>
           </div>
 
-          <MotionDiv 
+          <motion.div 
             initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
             className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
@@ -190,7 +185,7 @@ function App() {
                 onCopy={copyCommand}
               />
             ))}
-          </MotionDiv>
+          </motion.div>
         </div>
       </main>
 
@@ -199,10 +194,8 @@ function App() {
 }
 
 function ProjectCard({ title, desc, cmd, stars, url, version, copied, onCopy }) {
-  const MotionDiv = m.div;
-
   return (
-    <MotionDiv 
+    <motion.div 
       whileHover={{ y: -4, scale: 1.01 }}
       className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800/50 p-6 rounded-2xl hover:border-brand-500/50 hover:bg-zinc-900/60 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)] transition-all flex flex-col justify-between h-full group"
     >
@@ -212,12 +205,12 @@ function ProjectCard({ title, desc, cmd, stars, url, version, copied, onCopy }) 
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="min-w-0 flex-1 text-lg font-bold text-zinc-100 hover:text-brand-400 transition-colors flex items-start gap-2 leading-tight break-words group/link"
+            className="min-w-0 flex-1 text-lg font-bold text-zinc-100 hover:text-brand-400 transition-colors flex items-start gap-2 group/link"
           >
             {title}
             <ExternalLink size={14} className="opacity-0 group-hover/link:opacity-100 transition-opacity mt-1 text-zinc-500 shrink-0"/>
           </a>
-          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 self-start">
+          <div className="flex shrink-0 items-center gap-2 self-start">
             {version && (
               <span className="text-zinc-400 bg-zinc-950/80 px-2 py-1 rounded-md border border-zinc-800/80 text-xs font-mono font-semibold whitespace-nowrap">
                 v{version}
@@ -237,11 +230,9 @@ function ProjectCard({ title, desc, cmd, stars, url, version, copied, onCopy }) 
       {/* Installation Command block mimicking npm/PyPI */}
       <div className="mt-auto pt-4 border-t border-zinc-800/50">
         <p className="text-[10px] font-semibold text-zinc-500 mb-2 uppercase tracking-wider">Install via pip</p>
-        <button
-          type="button"
+        <div 
           onClick={() => onCopy(cmd)}
-          className="w-full bg-black/40 border border-zinc-800 rounded-lg p-3 flex justify-between items-center cursor-pointer hover:border-brand-500/30 hover:bg-black/60 transition-colors text-left"
-          aria-label={`Copy install command for ${title}`}
+          className="bg-black/40 border border-zinc-800 rounded-lg p-3 flex justify-between items-center cursor-pointer hover:border-brand-500/30 hover:bg-black/60 transition-colors"
         >
           <div className="flex items-center gap-3 overflow-hidden">
             <Terminal size={14} className="text-brand-500 shrink-0" />
@@ -252,9 +243,9 @@ function ProjectCard({ title, desc, cmd, stars, url, version, copied, onCopy }) 
           ) : (
             <Copy size={14} className="text-zinc-500 group-hover:text-zinc-300 transition-colors ml-3 shrink-0" />
           )}
-        </button>
+        </div>
       </div>
-    </MotionDiv>
+    </motion.div>
   )
 }
 
