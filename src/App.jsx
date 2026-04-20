@@ -1,14 +1,29 @@
 import { motion } from 'framer-motion';
-import { Terminal, Copy, Code2, Star, ExternalLink, Package, Search, Download } from 'lucide-react';
+import { Terminal, Copy, Code2, Star, ExternalLink, Package, Search, Download, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { FaGithub, FaFacebook } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import projectsData from './projects.json';
 
 function App() {
   const [copied, setCopied] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('stars');
   const [projects, setProjects] = useState(
     projectsData.map(p => ({ ...p, stars: 0, url: `https://github.com/roshhellwett/${p.repoName}` }))
   );
+
+  const filteredProjects = projects
+    .filter(p => 
+      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortBy === 'stars') return b.stars - a.stars;
+      if (sortBy === 'name') return a.title.localeCompare(b.title);
+      return 0;
+    });
+
+  const resultCount = filteredProjects.length;
 
   useEffect(() => {
     fetch('https://api.github.com/users/roshhellwett/repos?per_page=100')
@@ -121,19 +136,41 @@ function App() {
                 <Download className="text-brand-500" />
                 Available Packages
               </h2>
-              <p className="text-zinc-500 mt-2">Official open-source modules</p>
+              <p className="text-zinc-500 mt-2">
+                {resultCount} {resultCount === 1 ? 'package' : 'packages'} available
+                {searchQuery && ` for "${searchQuery}"`}
+              </p>
             </div>
-            <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400">
+            <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 w-full sm:w-auto">
               <Search size={16} />
-              <span className="min-w-[150px]">Search packages...</span>
+              <input
+                type="text"
+                placeholder="Search packages..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 w-full min-w-[150px]"
+              />
             </div>
+            <button
+              onClick={() => setSortBy(sortBy === 'stars' ? 'name' : 'stars')}
+              className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 hover:text-zinc-100 hover:border-zinc-700 transition-colors whitespace-nowrap"
+            >
+              <ArrowUpDown size={16} />
+              {sortBy === 'stars' ? ' Stars' : ' A-Z'}
+            </button>
           </div>
 
           <motion.div 
             initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
             className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
-            {projects.map((project, index) => (
+            {filteredProjects.length === 0 ? (
+              <div className="col-span-full text-center py-16 text-zinc-500">
+                <Search size={48} className="mx-auto mb-4 opacity-50" />
+                <p className="text-lg">No packages found</p>
+                <p className="text-sm mt-2">Try a different search term</p>
+              </div>
+            ) : filteredProjects.map((project, index) => (
               <ProjectCard 
                 key={index}
                 title={project.title} 
@@ -141,6 +178,7 @@ function App() {
                 cmd={project.installCommand}
                 stars={project.stars}
                 url={project.url}
+                version={project.version}
                 copied={copied}
                 onCopy={copyCommand}
               />
@@ -153,19 +191,24 @@ function App() {
   );
 }
 
-function ProjectCard({ title, desc, cmd, stars, url, copied, onCopy }) {
+function ProjectCard({ title, desc, cmd, stars, url, version, copied, onCopy }) {
   return (
     <motion.div 
       whileHover={{ y: -4, scale: 1.01 }}
       className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800/50 p-6 rounded-2xl hover:border-brand-500/50 hover:bg-zinc-900/60 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)] transition-all flex flex-col justify-between h-full group"
     >
       <div>
-        <div className="flex justify-between items-start mb-4 gap-4">
+        <div className="flex justify-between items-start mb-4 gap-4 flex-wrap">
           <a href={url} target="_blank" rel="noreferrer" className="text-lg font-bold text-zinc-100 hover:text-brand-400 transition-colors flex items-start gap-2 group/link">
             {title}
             <ExternalLink size={14} className="opacity-0 group-hover/link:opacity-100 transition-opacity mt-1 text-zinc-500 shrink-0"/>
           </a>
-          {stars !== undefined && (
+          {version && (
+            <span className="text-zinc-400 bg-zinc-950/80 px-2 py-1 rounded-md border border-zinc-800/80 text-xs font-mono font-semibold shrink-0">
+              v{version}
+            </span>
+          )}
+          {stars !== undefined && stars > 0 && (
             <div className="flex items-center gap-1 text-zinc-400 bg-zinc-950/80 px-2.5 py-1 rounded-md border border-zinc-800/80 text-xs font-semibold shrink-0">
               <Star size={12} className="text-yellow-500 fill-yellow-500/20" />
               {stars}
