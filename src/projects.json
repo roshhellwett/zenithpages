@@ -1,20 +1,50 @@
 [
   {
-    "title": "ProjectPulsewire",
+    "title": "PROJECTPULSEWIRE",
     "repoName": "projectpulsewire",
     "description": "A premier Linux audio enhancement tool CLI. Manages EasyEffects presets and IRS files for a stable, high-performance experience.",
     "installCommand": "pip install projectpulsewire"
   },
   {
-    "title": "Numsuko",
-    "repoName": "Numsuko",
-    "description": "An interactive GenZ-focused UI game with terminal animations. A fully cross-platform bug-free terminal experience.",
-    "installCommand": "pip install numsuko"
+    "title": "PROJECTKITTYTHEMES",
+    "repoName": "projectkittythemes",
+    "description": "Beautiful color themes for your terminal. Transform your terminal from boring default colors to something you'll love.",
+    "installCommand": "pip install projectkittythemes"
   },
   {
-    "title": "ProjectDevSetup",
+    "title": "PROJECTNUMSUKO",
+    "repoName": "projectnumsuko",
+    "description": "An interactive, animated, GenZ-friendly command-line number guessing game written in Python.",
+    "installCommand": "pip install projectnumsuko"
+  },
+  {
+    "title": "PROJECTREADMEGEN",
+    "repoName": "projectreadmegen",
+    "description": "Auto-generate README files from folder structure with optional AI enhancement using Groq API.",
+    "installCommand": "pip install projectreadmegen"
+  },
+  {
+    "title": "PROJECTDEVSETUP",
     "repoName": "projectdevsetup",
-    "description": "A stable, production-ready environment setup utility for installing language toolchains, VS Code, and extensions seamlessly.",
+    "description": "Beginner-friendly tool that helps set up a coding environment for common programming languages.",
     "installCommand": "pip install projectdevsetup"
+  },
+  {
+    "title": "PROJECTGRUB",
+    "repoName": "projectgrub",
+    "description": "Interactive CLI tool that helps you browse, install, and manage GRUB boot themes on Linux.",
+    "installCommand": "pip install projectgrub"
+  },
+  {
+    "title": "PROJECTVSCODE",
+    "repoName": "projectvscodetemplates",
+    "description": "Tool that automatically sets up VS Code for you with the perfect extensions, settings, and shortcuts for your workflow.",
+    "installCommand": "pip install projectvscodetemplates"
+  },
+  {
+    "title": "PROJECTWINACTIVATION",
+    "repoName": "projectwinactivation",
+    "description": "Comprehensive Windows utility toolkit that provides essential system management tools through an interactive menu interface.",
+    "installCommand": "pip install projectwinactivation"
   }
 ]
