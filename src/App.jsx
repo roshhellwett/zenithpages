@@ -143,23 +143,25 @@ function App() {
                 {searchQuery && ` for "${searchQuery}"`}
               </p>
             </div>
-            <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 w-full sm:w-auto">
-              <Search size={16} />
-              <input
-                type="text"
-                placeholder="Search packages..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 w-full min-w-[150px]"
-              />
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+              <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 w-full sm:w-auto">
+                <Search size={16} />
+                <input
+                  type="text"
+                  placeholder="Search packages..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 w-full min-w-[150px]"
+                />
+              </div>
+              <button
+                onClick={() => setSortBy(sortBy === 'stars' ? 'name' : 'stars')}
+                className="flex justify-center items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 hover:text-zinc-100 hover:border-zinc-700 transition-colors whitespace-nowrap w-full sm:w-auto"
+              >
+                <ArrowUpDown size={16} />
+                {sortBy === 'stars' ? ' Stars' : ' A-Z'}
+              </button>
             </div>
-            <button
-              onClick={() => setSortBy(sortBy === 'stars' ? 'name' : 'stars')}
-              className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 hover:text-zinc-100 hover:border-zinc-700 transition-colors whitespace-nowrap"
-            >
-              <ArrowUpDown size={16} />
-              {sortBy === 'stars' ? ' Stars' : ' A-Z'}
-            </button>
           </div>
 
           <motion.div 
