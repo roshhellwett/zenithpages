@@ -1,3 +1,10 @@
+/* ===== Zenith Registry — Responsive Layout Fixes ===== */
+
+/* 
+ * Legacy Vite scaffold styles — kept for reference but not actively used.
+ * The App.jsx uses Tailwind utility classes exclusively.
+ */
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;

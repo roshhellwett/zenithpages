@@ -53,25 +53,25 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen text-zinc-50 relative overflow-hidden font-sans pb-10">
+    <div className="min-h-screen text-zinc-50 relative overflow-x-hidden font-sans pb-10">
       
-      {/* 2026 Animated Background */}
-      <div className="fixed inset-0 z-[-1] bg-zinc-950">
+      {/* 2026 Animated Background — contained to prevent horizontal overflow */}
+      <div className="fixed inset-0 z-[-1] bg-zinc-950 overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-30 mask-radial"></div>
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-brand-600/20 rounded-full blur-[120px] animate-blob"></div>
-        <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[150px] animate-blob animation-delay-2000"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-brand-600/20 rounded-full blur-[120px] animate-blob"></div>
+        <div className="absolute bottom-[-10%] right-[-5%] w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] bg-blue-900/20 rounded-full blur-[150px] animate-blob animation-delay-2000"></div>
       </div>
 
       {/* Navbar */}
       <nav className="fixed top-0 w-full z-50 glass-panel border-b border-zinc-800/50">
-        <div className="w-full px-8 md:px-16 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3 font-bold text-xl tracking-tight">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 h-14 sm:h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3 font-bold text-lg sm:text-xl tracking-tight">
             <div className="bg-brand-500/10 p-1.5 rounded-lg border border-brand-500/20 hidden sm:block">
               <Package className="text-brand-500" size={20} />
             </div>
             <span>Zenith <span className="text-zinc-400 font-normal">Registry</span></span>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6">
             <a href="https://github.com/roshhellwett" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
               <FaGithub size={18} /> <span className="hidden sm:inline">GitHub</span>
             </a>
@@ -82,36 +82,36 @@ function App() {
         </div>
       </nav>
 
-      {/* Hero Section - Left Aligned */}
-      <main className="pt-40 pb-16 px-8 md:px-16 w-full mx-auto">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-16 mb-24">
-          <div className="flex flex-col items-start text-left max-w-3xl">
+      {/* Hero Section */}
+      <main className="pt-28 sm:pt-36 lg:pt-40 pb-10 sm:pb-16 px-4 sm:px-6 md:px-8 lg:px-16 w-full max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 lg:gap-16 mb-16 sm:mb-24">
+          <div className="flex flex-col items-start text-left max-w-3xl w-full">
             <motion.div 
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-2 text-brand-400 font-semibold tracking-wider uppercase text-xs mb-6 px-3 py-1 rounded-full border border-brand-500/20 bg-brand-500/10"
+              className="flex items-center gap-2 text-brand-400 font-semibold tracking-wider uppercase text-[10px] sm:text-xs mb-4 sm:mb-6 px-3 py-1 rounded-full border border-brand-500/20 bg-brand-500/10"
             >
               <Terminal size={14} /> Open Source Toolchain
             </motion.div>
             
             <motion.h1 
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-8 bg-gradient-to-br from-white via-zinc-200 to-zinc-600 bg-clip-text text-transparent leading-[1.05]"
+              className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-6 sm:mb-8 bg-gradient-to-br from-white via-zinc-200 to-zinc-600 bg-clip-text text-transparent leading-[1.05]"
             >
               The Developer <br/> Utility Registry
             </motion.h1>
             
             <motion.p 
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-zinc-400 max-w-2xl leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl leading-relaxed"
             >
               Explore, download, and integrate highly optimized CLI tools directly from your terminal. Built for modern infrastructure, accessible to everyone.
             </motion.p>
           </div>
 
-          {/* Decorative Terminal/Code Element on Right */}
+          {/* Decorative Terminal/Code Element — hidden on mobile & tablet */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
-            className="hidden lg:block w-full max-w-md glass-panel p-6 rounded-2xl border border-zinc-800/50 relative overflow-hidden shadow-2xl"
+            className="hidden lg:block w-full max-w-md glass-panel p-6 rounded-2xl border border-zinc-800/50 relative overflow-hidden shadow-2xl shrink-0"
           >
             <div className="flex gap-2 mb-4">
               <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
@@ -131,27 +131,27 @@ function App() {
         </div>
 
         {/* Packages Registry Section */}
-        <div className="border-t border-zinc-800/50 pt-16">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 gap-4">
+        <div className="border-t border-zinc-800/50 pt-10 sm:pt-16">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-10 gap-4">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-                <Download className="text-brand-500" />
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-3">
+                <Download className="text-brand-500 shrink-0" />
                 Available Packages
               </h2>
-              <p className="text-zinc-500 mt-2">
+              <p className="text-zinc-500 mt-1.5 sm:mt-2 text-sm sm:text-base">
                 {resultCount} {resultCount === 1 ? 'package' : 'packages'} available
                 {searchQuery && ` for "${searchQuery}"`}
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-              <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-4 py-2.5 rounded-xl text-sm text-zinc-400 w-full sm:w-auto">
-                <Search size={16} />
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+              <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 px-3 sm:px-4 py-2.5 rounded-xl text-sm text-zinc-400 w-full sm:w-auto">
+                <Search size={16} className="shrink-0" />
                 <input
                   type="text"
                   placeholder="Search packages..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 w-full min-w-[150px]"
+                  className="bg-transparent border-none outline-none text-zinc-100 placeholder-zinc-500 w-full min-w-0 sm:min-w-[150px]"
                 />
               </div>
               <button
@@ -166,7 +166,7 @@ function App() {
 
           <motion.div 
             initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
           >
             {filteredProjects.length === 0 ? (
               <div className="col-span-full text-center py-16 text-zinc-500">
@@ -199,51 +199,49 @@ function ProjectCard({ title, desc, cmd, stars, url, version, copied, onCopy }) 
   return (
     <motion.div 
       whileHover={{ y: -4, scale: 1.01 }}
-      className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800/50 p-6 rounded-2xl hover:border-brand-500/50 hover:bg-zinc-900/60 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)] transition-all flex flex-col justify-between h-full group"
+      className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800/50 p-4 sm:p-6 rounded-2xl hover:border-brand-500/50 hover:bg-zinc-900/60 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)] transition-all flex flex-col justify-between h-full group"
     >
       <div>
-        <div className="flex items-start justify-between mb-4 gap-4">
-          <a
-            href={url}
-            target="_blank"
-            rel="noreferrer"
-            className="min-w-0 flex-1 text-lg font-bold text-zinc-100 hover:text-brand-400 transition-colors flex items-start gap-2 group/link"
-          >
-            {title}
-            <ExternalLink size={14} className="opacity-0 group-hover/link:opacity-100 transition-opacity mt-1 text-zinc-500 shrink-0"/>
-          </a>
-          <div className="flex shrink-0 items-center gap-2 self-start">
-            {version && (
-              <span className="text-zinc-400 bg-zinc-950/80 px-2 py-1 rounded-md border border-zinc-800/80 text-xs font-mono font-semibold whitespace-nowrap">
-                v{version}
-              </span>
-            )}
-            {stars !== undefined && stars > 0 && (
-              <div className="flex items-center gap-1 text-zinc-400 bg-zinc-950/80 px-2.5 py-1 rounded-md border border-zinc-800/80 text-xs font-semibold whitespace-nowrap">
-                <Star size={12} className="text-yellow-500 fill-yellow-500/20" />
-                {stars}
-              </div>
-            )}
-          </div>
+        <a
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm sm:text-base font-bold text-zinc-100 hover:text-brand-400 transition-colors group/link mb-2 sm:mb-2.5"
+        >
+          {title}
+          <ExternalLink size={12} className="opacity-0 group-hover/link:opacity-100 transition-opacity text-zinc-500 shrink-0"/>
+        </a>
+        <div className="flex items-center gap-1.5 mb-3 sm:mb-4 flex-wrap">
+          {version && (
+            <span className="text-zinc-400 bg-zinc-950/80 px-1.5 py-0.5 rounded-md border border-zinc-800/80 text-[10px] font-mono font-semibold whitespace-nowrap">
+              v{version}
+            </span>
+          )}
+          {stars !== undefined && stars > 0 && (
+            <div className="flex items-center gap-1 text-zinc-400 bg-zinc-950/80 px-1.5 py-0.5 rounded-md border border-zinc-800/80 text-[10px] font-semibold whitespace-nowrap">
+              <Star size={10} className="text-yellow-500 fill-yellow-500/20" />
+              {stars}
+            </div>
+          )}
         </div>
-        <p className="text-zinc-400 mb-6 text-sm leading-relaxed line-clamp-3">{desc}</p>
+        <p className="text-zinc-400 mb-4 sm:mb-6 text-sm leading-relaxed line-clamp-3">{desc}</p>
       </div>
       
       {/* Installation Command block mimicking npm/PyPI */}
-      <div className="mt-auto pt-4 border-t border-zinc-800/50">
-        <p className="text-[10px] font-semibold text-zinc-500 mb-2 uppercase tracking-wider">Install via pip</p>
+      <div className="mt-auto pt-3 sm:pt-4 border-t border-zinc-800/50">
+        <p className="text-[10px] font-semibold text-zinc-500 mb-1.5 sm:mb-2 uppercase tracking-wider">Install via pip</p>
         <div 
           onClick={() => onCopy(cmd)}
-          className="bg-black/40 border border-zinc-800 rounded-lg p-3 flex justify-between items-center cursor-pointer hover:border-brand-500/30 hover:bg-black/60 transition-colors"
+          className="bg-black/40 border border-zinc-800 rounded-lg p-2.5 sm:p-3 flex justify-between items-center cursor-pointer hover:border-brand-500/30 hover:bg-black/60 transition-colors"
         >
-          <div className="flex items-center gap-3 overflow-hidden">
+          <div className="flex items-center gap-2 sm:gap-3 overflow-hidden min-w-0">
             <Terminal size={14} className="text-brand-500 shrink-0" />
-            <code className="font-mono text-sm text-zinc-300 truncate">{cmd}</code>
+            <code className="font-mono text-xs sm:text-sm text-zinc-300 truncate">{cmd}</code>
           </div>
           {copied === cmd ? (
-            <span className="text-green-400 text-xs font-medium ml-3 shrink-0">Copied</span>
+            <span className="text-green-400 text-xs font-medium ml-2 sm:ml-3 shrink-0">Copied</span>
           ) : (
-            <Copy size={14} className="text-zinc-500 group-hover:text-zinc-300 transition-colors ml-3 shrink-0" />
+            <Copy size={14} className="text-zinc-500 group-hover:text-zinc-300 transition-colors ml-2 sm:ml-3 shrink-0" />
           )}
         </div>
       </div>
