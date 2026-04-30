@@ -14,13 +14,6 @@
     "version": "1.0.3"
   },
   {
-    "title": "PROJECTNUMSUKO",
-    "repoName": "projectnumsuko",
-    "description": "An interactive, animated, GenZ-friendly command-line number guessing game written in Python.",
-    "installCommand": "pip install projectnumsuko",
-    "version": "1.1.0"
-  },
-  {
     "title": "PROJECTREADMEGEN",
     "repoName": "projectreadmegen",
     "description": "Auto-generate README files from folder structure with optional AI enhancement using Groq API.",
