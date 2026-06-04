@@ -1,6 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
+const commands = [
+  { type: 'input', text: 'zenith search readme' },
+  { type: 'output', text: 'projectreadmegen  v2.0.3  README generation', delay: 280 },
+  { type: 'input', text: 'pip install projectreadmegen', delay: 520 },
+  { type: 'output', text: 'Downloading package metadata...', delay: 280 },
+  { type: 'output', text: 'Installing projectreadmegen-2.0.3', delay: 360 },
+  { type: 'output', text: 'Done. Command available: readmegen', delay: 260 },
+  { type: 'input', text: 'readmegen generate --ai', delay: 650 },
+  { type: 'output', text: 'README.md created from project structure', delay: 320 },
+];
+
 const AnimatedTerminal = () => {
   const [lines, setLines] = useState([]);
   const [currentLine, setCurrentLine] = useState(0);
@@ -9,64 +20,47 @@ const AnimatedTerminal = () => {
   const [isTyping, setIsTyping] = useState(true);
   const containerRef = useRef(null);
 
-  const commands = [
-    { type: 'input', text: 'zenith search audio', delay: 800 },
-    { type: 'output', text: 'Found 1 package:', delay: 300 },
-    { type: 'output', text: '➜ projectpulsewire (v2.0.3) - Linux audio enhancement', delay: 200, color: 'text-green-400' },
-    { type: 'input', text: 'pip install projectpulsewire', delay: 1000 },
-    { type: 'output', text: 'Collecting projectpulsewire', delay: 400 },
-    { type: 'output', text: 'Downloading projectpulsewire-2.0.3-py3-none-any.whl (12 kB)', delay: 300 },
-    { type: 'output', text: 'Installing collected packages: projectpulsewire', delay: 500 },
-    { type: 'output', text: 'Successfully installed projectpulsewire-2.0.3', delay: 200, color: 'text-green-400' },
-    { type: 'input', text: 'pulsewire --help', delay: 1200 },
-    { type: 'output', text: 'Usage: pulsewire [OPTIONS] COMMAND [ARGS]...', delay: 300 },
-    { type: 'output', text: 'Commands: install, list, backup, restore, preset', delay: 400 },
-  ];
-
   useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor(prev => !prev);
-    }, 530);
-
+    const cursorInterval = setInterval(() => setShowCursor((value) => !value), 530);
     return () => clearInterval(cursorInterval);
   }, []);
 
   useEffect(() => {
     if (currentLine >= commands.length) {
-      setIsTyping(false);
-      // Reset after a pause
-      const resetTimeout = setTimeout(() => {
+      const stopTimeout = setTimeout(() => setIsTyping(false), 0);
+      const restartTimeout = setTimeout(() => {
         setLines([]);
         setCurrentLine(0);
         setCurrentChar(0);
         setIsTyping(true);
-      }, 4000);
-      return () => clearTimeout(resetTimeout);
+      }, 4200);
+      return () => {
+        clearTimeout(stopTimeout);
+        clearTimeout(restartTimeout);
+      };
     }
 
     const command = commands[currentLine];
 
     if (command.type === 'input') {
       if (currentChar < command.text.length) {
-        const timeout = setTimeout(() => {
-          setCurrentChar(prev => prev + 1);
-        }, 50 + Math.random() * 30);
-        return () => clearTimeout(timeout);
-      } else {
-        const timeout = setTimeout(() => {
-          setLines(prev => [...prev, { ...command, fullText: command.text }]);
-          setCurrentLine(prev => prev + 1);
-          setCurrentChar(0);
-        }, command.delay);
+        const timeout = setTimeout(() => setCurrentChar((value) => value + 1), 38);
         return () => clearTimeout(timeout);
       }
-    } else {
+
       const timeout = setTimeout(() => {
-        setLines(prev => [...prev, command]);
-        setCurrentLine(prev => prev + 1);
-      }, command.delay);
+        setLines((value) => [...value, { ...command, fullText: command.text, isTyped: true }]);
+        setCurrentLine((value) => value + 1);
+        setCurrentChar(0);
+      }, command.delay || 450);
       return () => clearTimeout(timeout);
     }
+
+    const timeout = setTimeout(() => {
+      setLines((value) => [...value, command]);
+      setCurrentLine((value) => value + 1);
+    }, command.delay || 280);
+    return () => clearTimeout(timeout);
   }, [currentLine, currentChar]);
 
   useEffect(() => {
@@ -77,90 +71,56 @@ const AnimatedTerminal = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      initial={{ opacity: 0, scale: 0.97, y: 18 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="relative w-full max-w-lg"
+      transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
+      className="relative mx-auto w-full max-w-lg"
     >
-      {/* Glow effect behind terminal */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-brand-500/20 via-blue-500/20 to-brand-500/20 rounded-2xl blur-xl opacity-50 animate-pulse" />
-      
-      {/* Terminal window */}
-      <div className="relative glass-panel rounded-2xl border border-zinc-700/50 overflow-hidden shadow-2xl">
-        {/* Terminal header */}
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50">
-          <div className="flex gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors cursor-pointer" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors cursor-pointer" />
-            <div className="w-3 h-3 rounded-full bg-green-500/80 hover:bg-green-500 transition-colors cursor-pointer" />
+      <div className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle_at_70%_10%,rgba(14,165,233,0.18),transparent_38%),radial-gradient(circle_at_10%_80%,rgba(16,185,129,0.14),transparent_34%)] blur-2xl" />
+      <div className="relative overflow-hidden rounded-[1.75rem] border border-white/70 bg-slate-950 shadow-2xl shadow-slate-950/20">
+        <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-4 py-3">
+          <div className="flex gap-1.5">
+            <span className="h-3 w-3 rounded-full bg-rose-400" />
+            <span className="h-3 w-3 rounded-full bg-amber-300" />
+            <span className="h-3 w-3 rounded-full bg-emerald-400" />
           </div>
-          <div className="flex-1 text-center">
-            <span className="text-xs text-zinc-500 font-medium">zenith — zsh</span>
-          </div>
-          <div className="w-16" />
+          <span className="flex-1 text-center text-xs font-medium text-white/40">zenith install session</span>
+          <span className="w-12" />
         </div>
 
-        {/* Terminal content */}
-        <div 
-          ref={containerRef}
-          className="p-4 h-64 overflow-y-auto font-mono text-sm scrollbar-hide"
-          style={{ 
-            background: 'linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(9,9,11,0.6) 100%)',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none'
-          }}
-        >
-          {/* Prompt */}
-          <div className="text-zinc-500 text-xs mb-2">
-            Last login: {new Date().toLocaleString()} on ttys000
-          </div>
+        <div ref={containerRef} className="h-80 overflow-y-auto p-5 font-mono text-[13px] leading-7" style={{ scrollbarWidth: 'none' }}>
+          <div className="mb-3 text-white/25">Last login: today on zenith</div>
 
-          {/* Rendered lines */}
-          {lines.map((line, idx) => (
-            <div key={idx} className="mb-1">
-              {line.type === 'input' ? (
+          {lines.map((line, index) => (
+            <div key={`${line.text}-${index}`} className="mb-1">
+              {line.isTyped || line.type === 'input' ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-brand-400">❯</span>
-                  <span className="text-zinc-100">{line.fullText || line.text}</span>
+                  <span className="text-sky-300">$</span>
+                  <span className="text-white/85">{line.fullText || line.text}</span>
                 </div>
               ) : (
-                <div className={`${line.color || 'text-zinc-400'} pl-4`}>
-                  {line.text}
-                </div>
+                <div className="pl-4 text-white/48">{line.text}</div>
               )}
             </div>
           ))}
 
-          {/* Currently typing line */}
           {isTyping && currentLine < commands.length && commands[currentLine].type === 'input' && (
             <div className="flex items-center gap-2">
-              <span className="text-brand-400">❯</span>
-              <span className="text-zinc-100">
+              <span className="text-sky-300">$</span>
+              <span className="text-white/85">
                 {commands[currentLine].text.slice(0, currentChar)}
-                <span 
-                  className={`inline-block w-2 h-4 bg-brand-400 ml-0.5 ${showCursor ? 'opacity-100' : 'opacity-0'}`}
-                  style={{ transition: 'opacity 0.1s' }}
-                />
+                <span className={`ml-0.5 inline-block h-[15px] w-[6px] bg-sky-300 ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
               </span>
             </div>
           )}
 
-          {/* Empty prompt at end */}
           {!isTyping && (
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-brand-400">❯</span>
-              <span className={`inline-block w-2 h-4 bg-brand-400 ml-0.5 ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
+            <div className="mt-1 flex items-center gap-2">
+              <span className="text-sky-300">$</span>
+              <span className={`inline-block h-[15px] w-[6px] bg-sky-300 ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
             </div>
           )}
         </div>
-
-        {/* Scanline effect */}
-        <div 
-          className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{
-            background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)'
-          }}
-        />
       </div>
     </motion.div>
   );

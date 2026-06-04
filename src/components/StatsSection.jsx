@@ -1,246 +1,174 @@
 import { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { motion, useInView } from 'framer-motion';
-import { Star, Download, Users, Package, GitBranch, Code2, Terminal } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
+import { Code2, Download, GitBranch, Package, ShieldCheck, Sparkles, Star, Terminal } from 'lucide-react';
 
-const AnimatedCounter = ({ value, suffix = '', prefix = '' }) => {
+const heatmapValues = [
+  0, 1, 0, 2, 1, 3, 0,
+  1, 2, 3, 1, 0, 2, 1,
+  2, 3, 4, 2, 1, 3, 2,
+  1, 0, 2, 3, 4, 2, 1,
+  3, 2, 1, 4, 3, 2, 0,
+  1, 3, 2, 1, 4, 3, 2,
+  0, 2, 3, 4, 2, 1, 3,
+  2, 1, 0, 2, 3, 4, 2,
+  3, 4, 2, 1, 3, 2, 1,
+  1, 2, 3, 1, 0, 2, 4,
+  2, 3, 1, 4, 2, 3, 1,
+  0, 1, 2, 3, 4, 2, 3,
+];
+
+const heatmapColors = ['#eef2f7', '#dbeafe', '#93c5fd', '#38bdf8', '#0f172a'];
+
+const AnimatedCounter = ({ value, suffix = '' }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView) return undefined;
+    let start = null;
+    const duration = 1200;
+    let frame = 0;
 
-    let startTime = null;
-    const duration = 2000;
-
-    const animate = (currentTime) => {
-      if (!startTime) startTime = currentTime;
-      const elapsed = currentTime - startTime;
+    const animate = (now) => {
+      if (!start) start = now;
+      const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing function
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(easeOutQuart * value));
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
+      const ease = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(ease * value));
+      if (progress < 1) frame = requestAnimationFrame(animate);
     };
 
-    requestAnimationFrame(animate);
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
   }, [isInView, value]);
 
-  return (
-    <span ref={ref}>
-      {prefix}{count.toLocaleString()}{suffix}
-    </span>
-  );
+  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 };
 
 const StatsSection = ({ projects }) => {
-  const totalStars = projects.reduce((sum, p) => sum + (p.stars || 0), 0);
+  const totalStars = projects.reduce((sum, project) => sum + (project.stars || 0), 0);
   const toolCount = projects.length || 7;
-  
+
   const stats = [
-    {
-      icon: Package,
-      value: toolCount,
-      suffix: '',
-      label: 'Open Source Tools',
-      description: 'Production-ready CLI utilities',
-      color: 'from-purple-500 to-indigo-500',
-    },
-    {
-      icon: Star,
-      value: totalStars || 150,
-      suffix: '+',
-      label: 'GitHub Stars',
-      description: 'Community appreciation',
-      color: 'from-yellow-500 to-orange-500',
-    },
-    {
-      icon: Download,
-      value: 2500,
-      suffix: '+',
-      label: 'Total Downloads',
-      description: 'PyPI installations',
-      color: 'from-green-500 to-emerald-500',
-    },
-    {
-      icon: GitBranch,
-      value: 50,
-      suffix: '+',
-      label: 'Code Commits',
-      description: 'Active development',
-      color: 'from-blue-500 to-cyan-500',
-    },
+    { icon: Package, value: toolCount, label: 'Tools', sub: 'Curated CLI utilities' },
+    { icon: Star, value: totalStars || 150, suffix: '+', label: 'Stars', sub: 'GitHub visibility' },
+    { icon: Download, value: 2500, suffix: '+', label: 'Installs', sub: 'Package-ready workflows' },
+    { icon: GitBranch, value: 50, suffix: '+', label: 'Updates', sub: 'Active maintenance' },
+  ];
+
+  const facts = [
+    { icon: Terminal, label: 'CLI-first', sub: 'Designed for direct terminal use' },
+    { icon: Code2, label: 'Open source', sub: 'Every project links back to code' },
+    { icon: ShieldCheck, label: 'Maintainable', sub: 'Simple installs and visible versions' },
   ];
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <motion.div
-            initial={{ scale: 0.9 }}
-            whileInView={{ scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-sm font-medium mb-4"
-          >
-            <Code2 size={14} />
-            By The Numbers
-          </motion.div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Trusted by Developers
+    <div className="rounded-[2rem] border border-slate-950/[0.08] bg-white/76 p-4 shadow-xl shadow-slate-950/[0.04] sm:p-6">
+      <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="max-w-2xl">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-950/[0.08] bg-white/80 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm">
+            <Sparkles size={13} className="text-sky-600" />
+            Signal
+          </div>
+          <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl">
+            A focused tool collection with room to grow.
           </h2>
-          <p className="text-zinc-400 max-w-xl mx-auto">
-            Real metrics from real usage. Every number represents a developer who saved time.
+          <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">
+            The site turns scattered repository information into a compact catalog users can search, inspect, and act on.
           </p>
-        </motion.div>
+        </div>
+      </div>
 
-        {/* Stats grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-          {stats.map((stat, idx) => {
-            const Icon = stat.icon;
-            
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {stats.map((stat, index) => {
+          const Icon = stat.icon;
+          return (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.05 }}
+              className="rounded-3xl border border-slate-950/[0.08] bg-white p-5 shadow-sm"
+            >
+              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+                <Icon size={19} />
+              </span>
+              <p className="text-3xl font-semibold text-slate-950">
+                <AnimatedCounter value={stat.value} suffix={stat.suffix || ''} />
+              </p>
+              <p className="mt-1 text-sm font-semibold text-slate-700">{stat.label}</p>
+              <p className="mt-1 text-xs leading-5 text-slate-500">{stat.sub}</p>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_22rem]">
+        <div className="rounded-3xl border border-slate-950/[0.08] bg-white p-5 shadow-sm">
+          <div className="mb-4 flex items-center justify-between">
+            <p className="text-sm font-semibold text-slate-950">Maintenance rhythm</p>
+            <p className="text-xs font-medium text-slate-400">recent work</p>
+          </div>
+          <div className="grid grid-flow-col grid-rows-7 gap-1 overflow-hidden">
+            {heatmapValues.map((value, index) => (
+              <span
+                key={`${value}-${index}`}
+                className="h-3 min-w-3 rounded-[4px]"
+                style={{ backgroundColor: heatmapColors[value] }}
+              />
+            ))}
+          </div>
+          <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
+            <span>Less</span>
+            <div className="flex gap-1">
+              {heatmapColors.map((color) => (
+                <span key={color} className="h-3 w-3 rounded-[4px]" style={{ backgroundColor: color }} />
+              ))}
+            </div>
+            <span>More</span>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {facts.map((fact) => {
+            const Icon = fact.icon;
             return (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className="relative group"
-              >
-                {/* Glow effect */}
-                <div className={`absolute -inset-0.5 bg-gradient-to-r ${stat.color} opacity-0 group-hover:opacity-20 blur-xl rounded-2xl transition-opacity duration-500`} />
-                
-                <div className="relative glass-panel rounded-2xl border border-zinc-800/50 p-6 lg:p-8 text-center overflow-hidden">
-                  {/* Background decoration */}
-                  <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-5 rounded-full blur-2xl`} />
-                  
-                  {/* Icon */}
-                  <motion.div
-                    whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
-                    transition={{ duration: 0.5 }}
-                    className={`w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg`}
-                  >
-                    <Icon size={24} className="text-white" />
-                  </motion.div>
-
-                  {/* Value */}
-                  <div className="text-3xl lg:text-4xl font-bold text-white mb-1">
-                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                  </div>
-
-                  {/* Label */}
-                  <p className="text-zinc-300 font-semibold mb-1">{stat.label}</p>
-                  <p className="text-xs text-zinc-500">{stat.description}</p>
-                </div>
-              </motion.div>
+              <div key={fact.label} className="flex items-center gap-3 rounded-3xl border border-slate-950/[0.08] bg-white p-4 shadow-sm">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-700">
+                  <Icon size={19} />
+                </span>
+                <span>
+                  <span className="block text-sm font-semibold text-slate-950">{fact.label}</span>
+                  <span className="block text-sm leading-6 text-slate-500">{fact.sub}</span>
+                </span>
+              </div>
             );
           })}
         </div>
-
-        {/* GitHub activity visualization */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-12 glass-panel rounded-2xl border border-zinc-800/50 p-6 lg:p-8"
-        >
-          <div className="flex flex-col lg:flex-row items-center gap-8">
-            {/* Left side - contribution graph mock */}
-            <div className="flex-1 w-full">
-              <div className="flex items-center gap-3 mb-4">
-                <FaGithub size={20} className="text-zinc-400" />
-                <span className="text-sm font-medium text-zinc-300">Development Activity</span>
-              </div>
-              
-              {/* Contribution grid */}
-              <div className="flex gap-1">
-                {[...Array(20)].map((_, weekIdx) => (
-                  <div key={weekIdx} className="flex flex-col gap-1">
-                    {[...Array(7)].map((_, dayIdx) => {
-                      const intensity = Math.random();
-                      const color = intensity > 0.8 
-                        ? 'bg-brand-500' 
-                        : intensity > 0.5 
-                          ? 'bg-brand-500/60' 
-                          : intensity > 0.2 
-                            ? 'bg-brand-500/30' 
-                            : 'bg-zinc-800';
-                      
-                      return (
-                        <motion.div
-                          key={dayIdx}
-                          initial={{ scale: 0 }}
-                          whileInView={{ scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: (weekIdx * 7 + dayIdx) * 0.005 }}
-                          className={`w-3 h-3 rounded-sm ${color}`}
-                        />
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center justify-between mt-3 text-xs text-zinc-500">
-                <span>Less</span>
-                <div className="flex gap-1">
-                  <div className="w-3 h-3 rounded-sm bg-zinc-800" />
-                  <div className="w-3 h-3 rounded-sm bg-brand-500/30" />
-                  <div className="w-3 h-3 rounded-sm bg-brand-500/60" />
-                  <div className="w-3 h-3 rounded-sm bg-brand-500" />
-                </div>
-                <span>More</span>
-              </div>
-            </div>
-
-            {/* Right side - quick facts */}
-            <div className="lg:w-80 space-y-4">
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
-                <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
-                  <Terminal size={20} className="text-green-400" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-zinc-300">CLI-First Design</p>
-                  <p className="text-xs text-zinc-500">Every tool works in terminal</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
-                <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                  <Code2 size={20} className="text-blue-400" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-zinc-300">Pure Python</p>
-                  <p className="text-xs text-zinc-500">No external dependencies</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
-                <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                  <Users size={20} className="text-purple-400" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-zinc-300">Open Source</p>
-                  <p className="text-xs text-zinc-500">MIT Licensed, PRs welcome</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
-    </section>
+    </div>
   );
+};
+
+AnimatedCounter.propTypes = {
+  value: PropTypes.number.isRequired,
+  suffix: PropTypes.string,
+};
+
+StatsSection.propTypes = {
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      stars: PropTypes.number,
+      title: PropTypes.string,
+    })
+  ),
+};
+
+StatsSection.defaultProps = {
+  projects: [],
 };
 
 export default StatsSection;

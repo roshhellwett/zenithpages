@@ -3,28 +3,62 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#18181b" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Security Headers -->
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="permissions-policy" content="geolocation=(), microphone=(), camera=()" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect fill='%238b5cf6' width='32' height='32' rx='6'/><path fill='white' d='M16 8l2.8 8.2h8.6l-7 5.2 2.8 8.2-7-5.2-7 5.2 2.8-8.2-7-5.2h8.6z'/></svg>" />
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%238b5cf6' width='180' height='180' rx='40'/><path fill='white' d='M90 36l16 48h52l-42 30 16 48-42-30-42 30 16-48-42-30h52z' transform='scale(1.5) translate(-30, -8)'/></svg>" />
 
   <!-- SEO Meta Tags -->
   <title>Zenith Open Source | Powerful CLI Tools</title>
-  <meta name="google-site-verification" content="NFX0jdQabvNVbn0skKkozyaF_E3uBgG6ofNpTgurfFs" />
   <meta name="description"
-    content="Discover powerful, open-source Python CLI tools created by roshhellwett. Enhance your workflow with a simple pip install." />
+    content="Discover powerful, open-source Python CLI tools created by roshhellwett. Enhance your workflow with a simple pip install. Lightning-fast utilities for developers." />
   <meta name="keywords"
-    content="roshhellwett, zenith open source projects, python, pip install, cli, developer tools, zenith tools, open source registry" />
+    content="roshhellwett, zenith, open source projects, python, pip install, cli, developer tools, linux, terminal, command line" />
+  <meta name="author" content="roshhellwett" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://roshhellwett.github.io/zenithpages/" />
+  <meta name="google-site-verification" content="NFX0jdQabvNVbn0skKkozyaF_E3uBgG6ofNpTgurfFs" />
 
-  <!-- Open Graph for Facebook/Twitter -->
-  <meta property="og:title" content="Zenith Open Source | Powerful CLI Tools" />
-  <meta property="og:description"
-    content="Enhance your workflow with lightning-fast Python utilities. Built for developers, designed for everyone." />
+  <!-- Open Graph / Facebook / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://roshhellwett.github.io/zenithpages/" />
+  <meta property="og:title" content="Zenith Open Source | Powerful CLI Tools" />
+  <meta property="og:description"
+    content="Enhance your workflow with lightning-fast Python utilities. Built for developers, designed for everyone. Simple pip install, immediate results." />
+  <meta property="og:image" content="https://roshhellwett.github.io/zenithpages/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Zenith Open Source" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://roshhellwett.github.io/zenithpages/" />
+  <meta name="twitter:title" content="Zenith Open Source | Powerful CLI Tools" />
+  <meta name="twitter:description"
+    content="Lightning-fast Python CLI utilities for developers. Open source, MIT licensed, actively maintained." />
+  <meta name="twitter:image" content="https://roshhellwett.github.io/zenithpages/og-image.png" />
+
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://api.github.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet" />
 
   <!-- JSON-LD Structured Data for Google Indexing -->
   <script type="application/ld+json">
@@ -34,19 +68,58 @@
       "name": "Zenith Open Source",
       "alternateName": ["roshhellwett", "Zenith Open Source Projects"],
       "url": "https://roshhellwett.github.io/zenithpages/",
+      "image": "https://roshhellwett.github.io/zenithpages/og-image.png",
       "author": {
         "@type": "Person",
         "name": "roshhellwett",
-        "url": "https://github.com/roshhellwett"
+        "url": "https://github.com/roshhellwett",
+        "sameAs": ["https://github.com/roshhellwett"]
       },
-      "description": "Official registry for Zenith Open Source CLI tools and pip packages by roshhellwett."
+      "description": "Official registry for Zenith Open Source CLI tools and pip packages by roshhellwett.",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "Zenith Open Source",
+        "url": "https://roshhellwett.github.io/zenithpages/",
+        "logo": "https://roshhellwett.github.io/zenithpages/logo.png"
+      }
     }
     </script>
+
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://roshhellwett.github.io/zenithpages/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "CLI Tools",
+          "item": "https://roshhellwett.github.io/zenithpages/#packages"
+        }
+      ]
+    }
+    </script>
+
+  <!-- Performance Optimization -->
+  <link rel="prefetch" href="https://api.github.com/users/roshhellwett/repos" as="fetch" crossorigin />
+
 </head>
 
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
+  <noscript>
+    <div style="padding: 20px; text-align: center; font-family: system-ui, -apple-system, sans-serif; color: #999;">
+      <p>Zenith requires JavaScript to be enabled. Please enable JavaScript in your browser settings.</p>
+    </div>
+  </noscript>
 </body>
 
 </html>
