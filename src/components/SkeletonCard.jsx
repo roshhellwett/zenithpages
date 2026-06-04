@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 
-const SkeletonCard = ({ index }) => (
+const SkeletonCard = ({ index = 0 }) => (
   <motion.div
     initial={{ opacity: 0, y: 12 }}
     animate={{ opacity: 1, y: 0 }}
@@ -30,9 +30,6 @@ SkeletonCard.propTypes = {
   index: PropTypes.number,
 };
 
-SkeletonCard.defaultProps = {
-  index: 0,
-};
 
 export const SkeletonGrid = ({ count = 7 }) => (
   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -44,8 +41,5 @@ SkeletonGrid.propTypes = {
   count: PropTypes.number,
 };
 
-SkeletonGrid.defaultProps = {
-  count: 7,
-};
 
 export default SkeletonCard;

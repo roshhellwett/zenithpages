@@ -47,7 +47,7 @@ const AnimatedCounter = ({ value, suffix = '' }) => {
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 };
 
-const StatsSection = ({ projects }) => {
+const StatsSection = ({ projects = [] }) => {
   const totalStars = projects.reduce((sum, project) => sum + (project.stars || 0), 0);
   const toolCount = projects.length || 7;
 
@@ -117,7 +117,7 @@ const StatsSection = ({ projects }) => {
               <span
                 key={`${value}-${index}`}
                 className="h-3 min-w-3 rounded-[4px]"
-                style={{ backgroundColor: heatmapColors[value] }}
+                style={{ backgroundColor: heatmapColors.at(Math.min(Math.max(value, 0), heatmapColors.length - 1)) }}
               />
             ))}
           </div>
@@ -165,10 +165,6 @@ StatsSection.propTypes = {
       title: PropTypes.string,
     })
   ),
-};
-
-StatsSection.defaultProps = {
-  projects: [],
 };
 
 export default StatsSection;

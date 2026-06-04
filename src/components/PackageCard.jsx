@@ -16,23 +16,23 @@ import {
   Terminal,
 } from 'lucide-react';
 
-const iconMap = {
-  PROJECTPULSEWIRE: Disc3,
-  PROJECTKITTYTHEMES: Paintbrush,
-  PROJECTREADMEGEN: FileText,
-  PROJECTDEVSETUP: Settings,
-  PROJECTGRUB: MonitorCog,
-  PROJECTVSCODE: Terminal,
-  PROJECTWINACTIVATION: ShieldCheck,
-};
+const iconMap = new Map([
+  ['PROJECTPULSEWIRE', Disc3],
+  ['PROJECTKITTYTHEMES', Paintbrush],
+  ['PROJECTREADMEGEN', FileText],
+  ['PROJECTDEVSETUP', Settings],
+  ['PROJECTGRUB', MonitorCog],
+  ['PROJECTVSCODE', Terminal],
+  ['PROJECTWINACTIVATION', ShieldCheck],
+]);
 
-const categoryLabels = {
-  audio: 'Audio',
-  terminal: 'Terminal',
-  docs: 'Docs',
-  setup: 'Setup',
-  system: 'System',
-};
+const categoryLabels = new Map([
+  ['audio', 'Audio'],
+  ['terminal', 'Terminal'],
+  ['docs', 'Docs'],
+  ['setup', 'Setup'],
+  ['system', 'System'],
+]);
 
 const displayName = (project) => {
   const name = project.repoName.replace(/^project/i, '');
@@ -47,10 +47,10 @@ const displayName = (project) => {
     .trim();
 };
 
-const PackageCard = ({ project, copied, onCopy, index }) => {
+const PackageCard = ({ project, copied = false, onCopy, index = 0 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const timeoutRef = useRef(null);
-  const Icon = iconMap[project.title] || Terminal;
+  const Icon = iconMap.get(project.title) || Terminal;
   const isActiveCopied = copied === project.installCommand || isCopied;
 
   useEffect(() => () => {
@@ -94,7 +94,7 @@ const PackageCard = ({ project, copied, onCopy, index }) => {
 
         <div className="mt-5 flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700">
-            {categoryLabels[project.category] || 'Tool'}
+            {categoryLabels.get(project.category) || 'Tool'}
           </span>
           {project.version && (
             <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
@@ -146,11 +146,6 @@ PackageCard.propTypes = {
   copied: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   onCopy: PropTypes.func.isRequired,
   index: PropTypes.number,
-};
-
-PackageCard.defaultProps = {
-  copied: false,
-  index: 0,
 };
 
 export default PackageCard;

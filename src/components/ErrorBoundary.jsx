@@ -14,8 +14,7 @@ class ErrorBoundary extends Component {
 
     componentDidCatch(error, errorInfo) {
         // Log to console in development
-        // eslint-disable-next-line no-undef
-        if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
             console.error('Error caught by boundary:', error, errorInfo);
         }
         // In production, you could send to error tracking service
@@ -44,8 +43,7 @@ class ErrorBoundary extends Component {
                             <p className="mb-6 text-sm leading-6 text-slate-500">
                                 We encountered an unexpected error. Please try refreshing the page or go back to home.
                             </p>
-                            {/* eslint-disable-next-line no-undef */}
-                            {typeof process !== 'undefined' && process.env?.NODE_ENV === 'development' && (
+                            {import.meta.env.DEV && (
                                 <div className="mb-6 rounded-2xl border border-red-100 bg-red-50 p-3 text-left">
                                     <p className="break-words font-mono text-xs text-red-600">
                                         {this.state.error?.message}

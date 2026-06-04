@@ -4,7 +4,6 @@ import {
   ArrowRight,
   ArrowUpDown,
   CheckCircle2,
-  Command,
   ExternalLink,
   Menu,
   Package,
@@ -31,6 +30,16 @@ const navItems = [
   { href: '#workflow', icon: CheckCircle2, label: 'Workflow' },
   { href: '#demo', icon: Terminal, label: 'Demo' },
 ];
+
+const logoSrc = `${import.meta.env.BASE_URL}favicon.ico`;
+
+function BrandMark({ className = 'h-8 w-8' }) {
+  return (
+    <span className={`flex items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-slate-950/[0.08] ${className}`}>
+      <img src={logoSrc} alt="" className="h-[72%] w-[72%] object-contain" aria-hidden="true" />
+    </span>
+  );
+}
 
 const categories = [
   { value: 'all', label: 'All' },
@@ -69,9 +78,7 @@ function Navbar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
       <div className="absolute inset-0 border-b border-slate-950/[0.08] bg-white/78 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/68" />
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#" className="flex items-center gap-2.5 select-none" aria-label="Zenith home">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-950 text-white shadow-sm">
-            <Command size={16} />
-          </span>
+          <BrandMark />
           <span className="text-sm font-semibold text-slate-950">Zenith</span>
         </a>
 
@@ -491,9 +498,7 @@ function App() {
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-950 text-white">
-                <Command size={15} />
-              </span>
+              <BrandMark />
               <div>
                 <p className="text-sm font-semibold text-slate-950">Zenith</p>
                 <p className="text-xs text-slate-500">Open-source tools by roshhellwett</p>
@@ -537,6 +542,10 @@ Section.propTypes = {
 Eyebrow.propTypes = {
   icon: PropTypes.elementType,
   children: PropTypes.node.isRequired,
+};
+
+BrandMark.propTypes = {
+  className: PropTypes.string,
 };
 
 SectionHeading.propTypes = {

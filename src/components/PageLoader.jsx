@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
-const PageLoader = ({ onComplete }) => {
+const PageLoader = ({ onComplete } = {}) => {
   const [progress, setProgress] = useState(0);
   const [show, setShow] = useState(true);
   const timeoutRef = useRef(null);
@@ -86,10 +86,6 @@ const PageLoader = ({ onComplete }) => {
 
 PageLoader.propTypes = {
   onComplete: PropTypes.func,
-};
-
-PageLoader.defaultProps = {
-  onComplete: undefined,
 };
 
 export default PageLoader;
