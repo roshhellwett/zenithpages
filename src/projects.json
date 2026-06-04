@@ -47,5 +47,12 @@
     "description": "Comprehensive Windows utility toolkit that provides essential system management tools through an interactive menu interface.",
     "installCommand": "pip install projectwinactivation",
     "version": "1.0.1"
+  },
+  {
+    "title": "PROJECTDROPIT",
+    "repoName": "projectdropit",
+    "description": "A simple, menu-driven CLI tool for sending files securely between devices on the same network.",
+    "installCommand": "pip install projectdropit",
+    "version": "1.1.0"
   }
 ]
