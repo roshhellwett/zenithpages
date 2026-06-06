@@ -1,6 +1,4 @@
-/**
- * GitHub API utility with error handling and retry logic
- */
+
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // ms
@@ -38,7 +36,6 @@ export const fetchGitHubRepos = async (username, retries = MAX_RETRIES) => {
 
                 if (!response.ok) {
                     if (response.status === 403) {
-                        // Rate limited
                         throw new APIError(
                             'GitHub API rate limit exceeded. Please try again later.',
                             response.status,
@@ -73,14 +70,12 @@ export const fetchGitHubRepos = async (username, retries = MAX_RETRIES) => {
 
                 return data;
             } catch (error) {
-                // Retry logic
                 if (attempt < retries - 1) {
                     const waitTime = RETRY_DELAY * Math.pow(2, attempt); // Exponential backoff
                     await delay(waitTime);
                     continue;
                 }
 
-                // Last attempt failed
                 if (error instanceof APIError) {
                     throw error;
                 }
