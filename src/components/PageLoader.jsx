@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
-const PageLoader = ({ onComplete } = {}) => {
+const PageLoader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [show, setShow] = useState(true);
   const timeoutRef = useRef(null);
@@ -37,15 +37,15 @@ const PageLoader = ({ onComplete } = {}) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.4 } }}
-          className="fixed inset-0 z-[9999] bg-zinc-950 flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-[var(--color-node-bg)] flex flex-col items-center justify-center"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6">
-              <Sparkles size={18} className="text-brand-400" />
+            <div className="w-10 h-10 rounded-xl bg-[var(--color-amber)]/10 border border-[var(--color-amber)]/20 flex items-center justify-center mb-6">
+              <Sparkles size={18} className="text-[var(--color-amber)]" />
             </div>
           </motion.div>
 
@@ -68,7 +68,7 @@ const PageLoader = ({ onComplete } = {}) => {
 
           <div className="w-32 h-[2px] bg-white/[0.06] rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-brand-500 rounded-full"
+              className="h-full bg-[var(--color-amber)] rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${Math.min(progress, 100)}%` }}
               transition={{ duration: 0.15 }}

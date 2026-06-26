@@ -41,20 +41,20 @@ const WorkflowDiagram = () => {
 
   return (
     <div>
-      <div className="mx-auto mb-10 max-w-2xl text-center">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-950/[0.08] bg-white/80 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm">
-          <Sparkles size={13} className="text-sky-600" />
+      <div className="mb-8 max-w-2xl">
+        <div className="mb-5 inline-flex items-center gap-1.5 rounded-full bg-[var(--color-amber)]/10 px-3 py-1 text-[11px] font-semibold text-[var(--color-amber)]">
+          <Sparkles size={12} />
           Workflow
         </div>
-        <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl">
+        <h2 className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-3xl lg:text-4xl">
           From repo discovery to a running command.
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-slate-600">
+        <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--color-text-secondary)] sm:text-base sm:leading-7">
           Zenith keeps the useful parts of a GitHub profile visible and removes the friction around finding, installing, and trying each tool.
         </p>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-5">
+      <div className="relative grid gap-3 md:grid-cols-5">
         {steps.map((step, index) => {
           const Icon = step.icon;
           const isActive = active === index;
@@ -64,27 +64,32 @@ const WorkflowDiagram = () => {
               key={step.title}
               onClick={() => setActive(index)}
               onMouseEnter={() => setActive(index)}
-              className={`group rounded-3xl border p-4 text-left transition duration-300 ${
+              className={`group relative rounded-xl border p-4 text-left transition-all duration-300 ${
                 isActive
-                  ? 'border-slate-950 bg-slate-950 text-white shadow-xl shadow-slate-950/15'
-                  : 'border-slate-950/[0.08] bg-white/78 text-slate-700 shadow-sm hover:bg-white'
+                  ? 'border-[var(--color-amber)]/50 bg-[var(--color-node-bg)] text-white shadow-lg shadow-black/20 scale-[1.02]'
+                  : 'border-[var(--color-border)] bg-[var(--color-surface)]/70 backdrop-blur-md text-[var(--color-text-secondary)] shadow-sm hover:bg-[var(--color-sidebar-hover)]/80 hover:border-[var(--color-amber)]/20'
               }`}
               type="button"
             >
-              <div className="mb-4 flex items-center justify-between">
-                <span className={`flex h-10 w-10 items-center justify-center rounded-2xl ${isActive ? 'bg-white text-slate-950' : 'bg-slate-100 text-slate-600'}`}>
+              {index === active && <span className="absolute -inset-[1px] rounded-xl bg-gradient-to-b from-[var(--color-amber)]/20 to-transparent pointer-events-none" />}
+              <div className="relative mb-4 flex items-center justify-between">
+                <span className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${isActive ? 'bg-white text-[var(--color-node-bg)] shadow-sm scale-110' : 'bg-[var(--color-cream)]/70 text-[var(--color-text-secondary)]'}`}>
                   <Icon size={18} />
                 </span>
                 {index < active ? (
-                  <CheckCircle2 size={18} className="text-emerald-400" />
+                  <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 15 }}>
+                    <CheckCircle2 size={18} className="text-[var(--color-terminal-green)]" />
+                  </motion.span>
                 ) : (
-                  <span className={`text-xs font-semibold ${isActive ? 'text-white/45' : 'text-slate-400'}`}>0{index + 1}</span>
+                  <span className={`text-xs font-semibold ${isActive ? 'text-white/45' : 'text-[var(--color-text-secondary)]/50'}`}>0{index + 1}</span>
                 )}
               </div>
-              <h3 className="text-base font-semibold">{step.title}</h3>
-              <p className={`mt-2 text-sm leading-6 ${isActive ? 'text-white/62' : 'text-slate-500'}`}>
-                {step.description}
-              </p>
+              <div className="relative">
+                <h3 className="text-base font-semibold">{step.title}</h3>
+                <p className={`mt-2 text-sm leading-6 transition-colors duration-300 ${isActive ? 'text-white/70' : 'text-[var(--color-text-secondary)]'}`}>
+                  {step.description}
+                </p>
+              </div>
             </button>
           );
         })}
@@ -96,20 +101,20 @@ const WorkflowDiagram = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.22 }}
-          className="mt-5 rounded-3xl border border-slate-950/[0.08] bg-white/82 p-5 shadow-sm"
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/70 backdrop-blur-md p-5 shadow-sm"
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-700">
-              <ActiveIcon size={24} />
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--color-amber)]/10 text-[var(--color-amber-dark)]">
+              <ActiveIcon size={22} />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-semibold text-slate-950">{steps[active].title}</p>
-              <p className="mt-1 text-sm leading-6 text-slate-600">{steps[active].description}</p>
+              <p className="text-sm font-semibold text-[var(--color-text-primary)]">{steps[active].title}</p>
+              <p className="mt-1 text-sm leading-6 text-[var(--color-text-secondary)]">{steps[active].description}</p>
             </div>
-            <div className="grid flex-1 gap-2 sm:grid-cols-3">
+            <div className="flex flex-wrap gap-2">
               {steps[active].details.map((detail) => (
-                <div key={detail} className="rounded-2xl bg-slate-50 px-3 py-2 text-sm font-medium text-slate-600">
+                <div key={detail} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-cream)]/70 px-3 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] shadow-sm whitespace-nowrap">
                   {detail}
                 </div>
               ))}

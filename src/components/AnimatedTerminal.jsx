@@ -21,7 +21,7 @@ const AnimatedTerminal = () => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const cursorInterval = setInterval(() => setShowCursor((value) => !value), 530);
+    const cursorInterval = setInterval(() => setShowCursor((value) => !value), 480);
     return () => clearInterval(cursorInterval);
   }, []);
 
@@ -44,7 +44,7 @@ const AnimatedTerminal = () => {
 
     if (command.type === 'input') {
       if (currentChar < command.text.length) {
-        const timeout = setTimeout(() => setCurrentChar((value) => value + 1), 38);
+        const timeout = setTimeout(() => setCurrentChar((value) => value + 1), 30);
         return () => clearTimeout(timeout);
       }
 
@@ -74,10 +74,10 @@ const AnimatedTerminal = () => {
       initial={{ opacity: 0, scale: 0.97, y: 18 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mx-auto w-full max-w-lg"
+      className="relative mx-auto w-full"
     >
-      <div className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle_at_70%_10%,rgba(14,165,233,0.18),transparent_38%),radial-gradient(circle_at_10%_80%,rgba(16,185,129,0.14),transparent_34%)] blur-2xl" />
-      <div className="relative overflow-hidden rounded-[1.75rem] border border-white/70 bg-slate-950 shadow-2xl shadow-slate-950/20">
+      <div className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle_at_70%_10%,rgba(201,127,10,0.12),transparent_38%),radial-gradient(circle_at_10%_80%,rgba(34,197,94,0.08),transparent_34%)] blur-2xl" />
+      <div className="relative overflow-hidden rounded-xl border border-white/15 bg-[var(--color-node-bg)] shadow-2xl shadow-black/30">
         <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-4 py-3">
           <div className="flex gap-1.5">
             <span className="h-3 w-3 rounded-full bg-rose-400" />
@@ -95,7 +95,7 @@ const AnimatedTerminal = () => {
             <div key={`${line.text}-${index}`} className="mb-1">
               {line.isTyped || line.type === 'input' ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-sky-300">$</span>
+                  <span className="text-[var(--color-amber)]">$</span>
                   <span className="text-white/85">{line.fullText || line.text}</span>
                 </div>
               ) : (
@@ -106,18 +106,18 @@ const AnimatedTerminal = () => {
 
           {isTyping && currentLine < commands.length && commands[currentLine].type === 'input' && (
             <div className="flex items-center gap-2">
-              <span className="text-sky-300">$</span>
+              <span className="text-[var(--color-amber)]">$</span>
               <span className="text-white/85">
                 {commands[currentLine].text.slice(0, currentChar)}
-                <span className={`ml-0.5 inline-block h-[15px] w-[6px] bg-sky-300 ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
+                <span className={`ml-0.5 inline-block h-[15px] w-[6px] bg-[var(--color-amber)] ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
               </span>
             </div>
           )}
 
           {!isTyping && (
             <div className="mt-1 flex items-center gap-2">
-              <span className="text-sky-300">$</span>
-              <span className={`inline-block h-[15px] w-[6px] bg-sky-300 ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
+              <span className="text-[var(--color-amber)]">$</span>
+              <span className={`inline-block h-[15px] w-[6px] bg-[var(--color-amber)] ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
             </div>
           )}
         </div>

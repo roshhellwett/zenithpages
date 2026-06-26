@@ -16,23 +16,13 @@ import {
   Terminal,
 } from 'lucide-react';
 
-const iconMap = new Map([
-  ['PROJECTPULSEWIRE', Disc3],
-  ['PROJECTKITTYTHEMES', Paintbrush],
-  ['PROJECTREADMEGEN', FileText],
-  ['PROJECTDEVSETUP', Settings],
-  ['PROJECTGRUB', MonitorCog],
-  ['PROJECTVSCODE', Terminal],
-  ['PROJECTWINACTIVATION', ShieldCheck],
-]);
-
-const categoryLabels = new Map([
-  ['audio', 'Audio'],
-  ['terminal', 'Terminal'],
-  ['docs', 'Docs'],
-  ['setup', 'Setup'],
-  ['system', 'System'],
-]);
+const categoryLabels = {
+  audio: 'Audio',
+  terminal: 'Terminal',
+  docs: 'Docs',
+  setup: 'Setup',
+  system: 'System',
+};
 
 const displayName = (project) => {
   const name = project.repoName.replace(/^project/i, '');
@@ -47,10 +37,27 @@ const displayName = (project) => {
     .trim();
 };
 
+function PackageIcon({ title, size = 19 }) {
+  switch (title) {
+    case 'PROJECTPULSEWIRE': return <Disc3 size={size} />;
+    case 'PROJECTKITTYTHEMES': return <Paintbrush size={size} />;
+    case 'PROJECTREADMEGEN': return <FileText size={size} />;
+    case 'PROJECTDEVSETUP': return <Settings size={size} />;
+    case 'PROJECTGRUB': return <MonitorCog size={size} />;
+    case 'PROJECTVSCODE': return <Terminal size={size} />;
+    case 'PROJECTWINACTIVATION': return <ShieldCheck size={size} />;
+    default: return <Terminal size={size} />;
+  }
+}
+
+PackageIcon.propTypes = {
+  title: PropTypes.string.isRequired,
+  size: PropTypes.number,
+};
+
 const PackageCard = ({ project, copied = false, onCopy, index = 0 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const timeoutRef = useRef(null);
-  const Icon = iconMap.get(project.title) || Terminal;
   const isActiveCopied = copied === project.installCommand || isCopied;
 
   useEffect(() => () => {
@@ -71,60 +78,66 @@ const PackageCard = ({ project, copied = false, onCopy, index = 0 }) => {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -3 }}
-      className="group flex h-full flex-col rounded-3xl border border-slate-950/[0.08] bg-white/82 p-4 shadow-sm shadow-slate-950/[0.03] transition duration-300 hover:border-slate-950/[0.14] hover:bg-white hover:shadow-xl hover:shadow-slate-950/[0.07]"
+      whileHover={{ y: -3, transition: { duration: 0.2 } }}
+      className="group flex h-full flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/70 backdrop-blur-md p-4 shadow-sm transition-all duration-300 ease-out hover:border-[var(--color-amber)]/30 hover:shadow-lg hover:bg-[var(--color-surface)]/85"
     >
       <a href={project.url} target="_blank" rel="noreferrer" className="flex flex-1 flex-col">
         <div className="mb-4 flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-sm">
-              <Icon size={19} />
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-node-bg)] text-white shadow-sm ring-1 ring-white/10">
+              <PackageIcon title={project.title} size={18} />
             </span>
             <div className="min-w-0">
-              <h3 className="truncate text-base font-semibold text-slate-950">{displayName(project)}</h3>
-              <p className="mt-0.5 text-xs font-medium text-slate-500">{project.repoName}</p>
+              <h3 className="truncate text-sm font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-amber-dark)] transition-colors">{displayName(project)}</h3>
+              <p className="mt-0.5 text-[11px] font-medium text-[var(--color-text-secondary)]">{project.repoName}</p>
             </div>
           </div>
-          <ExternalLink size={16} className="mt-1 shrink-0 text-slate-300 transition group-hover:text-slate-500" />
+          <ExternalLink size={14} className="mt-1 shrink-0 text-[var(--color-border)] transition-all group-hover:text-[var(--color-amber)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
 
-        <p className="line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-slate-600">
+        <p className="line-clamp-2 min-h-[3rem] text-sm leading-6 text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors">
           {project.description}
         </p>
 
-        <div className="mt-5 flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700">
-            {categoryLabels.get(project.category) || 'Tool'}
+        <div className="mt-auto pt-4 flex flex-wrap items-center gap-1.5">
+          <span className="rounded-md border border-[var(--color-border)] bg-[var(--color-amber-light)]/50 px-2 py-0.5 text-[10px] font-semibold text-[var(--color-amber-dark)]">
+            {categoryLabels[project.category] || 'Tool'}
           </span>
           {project.version && (
-            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
+            <span className="rounded-md border border-[var(--color-border)] bg-[var(--color-cream)]/70 px-2 py-0.5 text-[10px] font-semibold text-[var(--color-text-secondary)]">
               v{project.version}
             </span>
           )}
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-            <Star size={12} />
-            {project.stars || 0}
+          <span className="inline-flex items-center gap-1 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]/70 px-2 py-0.5 text-[10px] font-semibold text-[var(--color-amber)]">
+            <Star size={10} className={!project.stars ? 'opacity-40' : ''} />
+            <span>{project.stars || 0}</span>
           </span>
         </div>
       </a>
 
-      <div className="mt-5 rounded-2xl border border-slate-950/[0.08] bg-slate-50 p-2">
+      <div className="mt-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-cream)]/70 p-1.5 transition-all duration-300 group-hover:border-[var(--color-amber)]/20 group-hover:bg-[var(--color-cream)]/80">
         <div className="flex items-center gap-2">
-          <Download size={15} className="ml-1 shrink-0 text-slate-400" />
-          <code className="min-w-0 flex-1 truncate font-mono text-xs font-medium text-slate-700">
+          <Download size={13} className="ml-1 shrink-0 text-[var(--color-text-secondary)]" />
+          <code className="min-w-0 flex-1 truncate font-mono text-[11px] font-medium text-[var(--color-text-primary)]">
             {project.installCommand}
           </code>
           <button
             onClick={handleCopy}
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition ${
+            className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition-all duration-200 ${
               isActiveCopied
-                ? 'bg-emerald-500 text-white'
-                : 'bg-white text-slate-500 shadow-sm hover:bg-slate-950 hover:text-white'
+                ? 'bg-[var(--color-terminal-green)] text-white shadow-sm scale-105'
+                : 'bg-[var(--color-surface)]/70 text-[var(--color-text-secondary)] shadow-sm hover:bg-[var(--color-node-bg)] hover:text-[var(--color-amber)] hover:shadow-md active:scale-90'
             }`}
             aria-label={`Copy ${project.installCommand}`}
             type="button"
           >
-            {isActiveCopied ? <Check size={16} /> : <Copy size={15} />}
+            {isActiveCopied ? (
+              <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
+                <Check size={14} />
+              </motion.span>
+            ) : (
+              <Copy size={13} />
+            )}
           </button>
         </div>
       </div>

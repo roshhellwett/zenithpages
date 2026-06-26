@@ -4,9 +4,9 @@ import { Home, Package, Search, Terminal, X } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 
 const commands = [
+  { id: 'workflow', name: 'Workflow', icon: Terminal, action: () => document.getElementById('workflow')?.scrollIntoView({ behavior: 'smooth' }) },
   { id: 'tools', name: 'Tool library', icon: Package, action: () => document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' }) },
-  { id: 'demo', name: 'Live CLI demo', icon: Terminal, action: () => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' }) },
-  { id: 'home', name: 'Top of page', icon: Home, action: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
+  { id: 'stats', name: 'Vertices', icon: Home, action: () => document.getElementById('stats')?.scrollIntoView({ behavior: 'smooth' }) },
   { id: 'github', name: 'GitHub profile', icon: FaGithub, action: () => window.open('https://github.com/roshhellwett', '_blank') },
 ];
 
@@ -48,20 +48,20 @@ const KeyboardShortcuts = () => {
               transition={{ duration: 0.15 }}
               className="fixed inset-x-4 top-[18%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-md z-50"
             >
-              <div className="overflow-hidden rounded-3xl border border-slate-950/[0.08] bg-white/95 shadow-2xl shadow-slate-950/20 backdrop-blur-xl">
-                <div className="flex items-center gap-2.5 border-b border-slate-950/[0.08] px-4 py-3">
-                  <Search size={15} className="shrink-0 text-slate-400" />
+              <div className="overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-cream)]/70 shadow-2xl shadow-black/20 backdrop-blur-xl">
+                <div className="flex items-center gap-2.5 border-b border-[var(--color-border-light)] px-4 py-3">
+                  <Search size={15} className="shrink-0 text-[var(--color-text-secondary)]" />
                   <input
                     type="text"
                     placeholder="Search commands..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="flex-1 border-none bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
+                    className="flex-1 border-none bg-transparent text-sm text-[var(--color-text-primary)] outline-none placeholder:text-[var(--color-text-secondary)]/50"
                     autoFocus
                   />
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                    className="rounded-lg p-1 text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-sidebar-hover)] hover:text-[var(--color-text-primary)]"
                     type="button"
                     aria-label="Close command palette"
                   >
@@ -74,20 +74,20 @@ const KeyboardShortcuts = () => {
                       <button
                         key={cmd.id}
                         onClick={() => { cmd.action?.(); setIsOpen(false); }}
-                        className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 transition-colors hover:bg-slate-100"
+                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-[var(--color-sidebar-hover)]"
                         type="button"
                       >
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
-                          <cmd.icon size={14} className="text-slate-500" />
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-sidebar-hover)]/70 backdrop-blur-sm">
+                          <cmd.icon size={14} className="text-[var(--color-text-secondary)]" />
                         </div>
-                        <span className="flex-1 text-left text-sm font-medium text-slate-700">{cmd.name}</span>
+                        <span className="flex-1 text-left text-sm font-medium text-[var(--color-text-primary)]">{cmd.name}</span>
                       </button>
                     ))
                   ) : (
-                    <div className="px-3 py-6 text-center text-sm text-slate-400">No commands found</div>
+                    <div className="px-3 py-6 text-center text-sm text-[var(--color-text-secondary)]">No commands found</div>
                   )}
                 </div>
-                <div className="flex items-center justify-between border-t border-slate-950/[0.08] px-4 py-2.5 text-[10px] text-slate-400">
+                <div className="flex items-center justify-between border-t border-[var(--color-border-light)] px-4 py-2.5 text-[10px] text-[var(--color-text-secondary)]">
                   <span>Zenith navigation</span>
                   <span>Zenith</span>
                 </div>
@@ -99,7 +99,5 @@ const KeyboardShortcuts = () => {
     </>
   );
 };
-
-KeyboardShortcuts.propTypes = {};
 
 export default KeyboardShortcuts;

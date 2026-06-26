@@ -6,22 +6,21 @@ const SkeletonCard = ({ index = 0 }) => (
     initial={{ opacity: 0, y: 12 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: index * 0.04 }}
-    className="rounded-3xl border border-slate-950/[0.08] bg-white/78 p-4 shadow-sm"
+    className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/70 backdrop-blur-md p-4 shadow-sm"
   >
     <div className="mb-4 flex items-start gap-3">
-      <div className="h-11 w-11 rounded-2xl bg-slate-100 shimmer" />
+      <div className="h-10 w-10 rounded-lg bg-[var(--color-sidebar-hover)]/70 shimmer" />
       <div className="flex-1 space-y-2 pt-1">
-        <div className="h-4 w-2/3 rounded bg-slate-100 shimmer" />
-        <div className="h-3 w-1/2 rounded bg-slate-100 shimmer" />
+        <div className="h-4 w-2/3 rounded bg-[var(--color-sidebar-hover)] shimmer" />
+        <div className="h-3 w-1/2 rounded bg-[var(--color-sidebar-hover)] shimmer" />
       </div>
     </div>
     <div className="space-y-2">
-      <div className="h-3 w-full rounded bg-slate-100 shimmer" />
-      <div className="h-3 w-5/6 rounded bg-slate-100 shimmer" />
-      <div className="h-3 w-3/5 rounded bg-slate-100 shimmer" />
+      <div className="h-3 w-full rounded bg-[var(--color-sidebar-hover)] shimmer" />
+      <div className="h-3 w-5/6 rounded bg-[var(--color-sidebar-hover)] shimmer" />
     </div>
-    <div className="mt-5 rounded-2xl border border-slate-950/[0.06] bg-slate-50 p-3">
-      <div className="h-4 w-full rounded bg-slate-100 shimmer" />
+    <div className="mt-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-cream)]/70 backdrop-blur-sm p-3">
+      <div className="h-4 w-full rounded bg-[var(--color-sidebar-hover)] shimmer" />
     </div>
   </motion.div>
 );
@@ -29,7 +28,6 @@ const SkeletonCard = ({ index = 0 }) => (
 SkeletonCard.propTypes = {
   index: PropTypes.number,
 };
-
 
 export const SkeletonGrid = ({ count = 7 }) => (
   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -40,6 +38,5 @@ export const SkeletonGrid = ({ count = 7 }) => (
 SkeletonGrid.propTypes = {
   count: PropTypes.number,
 };
-
 
 export default SkeletonCard;
