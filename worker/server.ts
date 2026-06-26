@@ -6,7 +6,7 @@ const PORT = parseInt(process.env.PORT || "3001", 10);
 const GROQ_API_KEY = process.env.GROQ_API_KEY || "";
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(",").map((s) => s.trim())
-  : ["http://localhost:3000"];
+  : ["http://localhost:3000", "http://localhost:5173", "https://roshhellwett.github.io"];
 
 // ── Rate Limiter (sliding window, per-IP) ──
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
