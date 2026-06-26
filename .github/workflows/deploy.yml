@@ -28,6 +28,8 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
+        env:
+          VITE_BASE_URL: /zenithpages/
         run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
