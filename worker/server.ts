@@ -206,10 +206,11 @@ app.use(
         origin.startsWith("http://127.0.0.1:") ||
         origin === "http://localhost" ||
         origin === "http://127.0.0.1";
+      const stripPath = (url: string) => {
+        try { return new URL(url).origin; } catch { return url; }
+      };
       const isAllowed = ALLOWED_ORIGINS.some(
-        (allowed) =>
-          origin === allowed ||
-          (allowed.startsWith("https://") && origin.endsWith(allowed.replace("https://", "")))
+        (allowed) => origin === stripPath(allowed)
       );
 
       if (isLocalhost || isAllowed) {
